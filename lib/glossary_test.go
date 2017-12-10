@@ -17,13 +17,17 @@ var testcases = []struct {
 
 additional line 1
 
-additional line 2
+` +
+			"```\n" +
+			"additional line 2\n" +
+			"```" +
+			`
 
 ## term2
 번역2. explanation`,
 		[]InfoBlock{
 			InfoBlock{Term: "term1", Translation: "번역1", Explanation: "\n"},
-			InfoBlock{Term: "term3", Translation: "번역3", Explanation: " explanation in multiple line\n\nadditional line 1\n\nadditional line 2\n"},
+			InfoBlock{Term: "term3", Translation: "번역3", Explanation: " explanation in multiple line\n\nadditional line 1\n\n```\nadditional line 2\n\n```\n"},
 			InfoBlock{Term: "term2", Translation: "번역2", Explanation: " explanation\n"},
 		},
 	},

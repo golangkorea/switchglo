@@ -96,6 +96,12 @@ func NewGlossary(mdinput string) ([]InfoBlock, error) {
 				glossary = append(glossary, InfoBlock{Term: html, Translation: "", Explanation: ""})
 			}
 			expidx = 0
+		case "pre":
+			html, err := s.Find("code").Html()
+			if err == nil {
+				glossary[len(glossary)-1].Explanation += fmt.Sprintf("\n```\n%s\n```\n", html)
+				expidx++
+			}
 		default:
 			html, err := s.Html()
 			if err == nil {
