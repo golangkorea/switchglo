@@ -15,4 +15,4 @@
 
 # vscode
 .vscode/
-debug/
+debug
