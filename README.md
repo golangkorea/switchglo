@@ -1,4 +1,4 @@
-# Utility for tranlsated glossary management
+# Utility for translated glossary management
 
 # Usage
 
