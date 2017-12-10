@@ -1,6 +1,21 @@
 # Utility for translated glossary management
 
-# Usage
+## Install
+
+```
+> go get github.com/golangkorea/switchglo
+```
+
+## Usage
+
+Once it's installed, execute in the translation project where glossary.md is present.
+
+```
+> switchglo switch
+```
+will swap each term with its corresponding translation, vice versa. The processed glossary will be stored in `glossary_out.md`.
+
+Here's the help message that can be printed with `switchglo help`
 
 ```
 switchglo helps translators to manage glossary markdown. It automates followings:
