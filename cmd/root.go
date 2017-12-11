@@ -31,12 +31,13 @@ var RootCmd = &cobra.Command{
 	Use:   "switchglo",
 	Short: "Switching and sorting terms in glossary",
 	Long: `switchglo helps translators to manage glossary markdown. It automates followings:
-
-1) Translators do not need to maintain the alphabetical order of terms. switchglo does it.
-2) switchglo allows terms to be switched with their translated terms, vice versa.
-
+	
+	1) Translators do not need to maintain the alphabetical order of terms. switchglo does it.
+	2) switchglo allows terms to be switched with their translated terms, vice versa.
+	3) switchglo will produce a merged glossary from existing glossary and its switched form.
+	
 In order to execute these automations reliably, translators should maintain following structures.
-
+	
 	1) Without explanation
 	## Term
 	translated term
@@ -44,7 +45,22 @@ In order to execute these automations reliably, translators should maintain foll
 	2) With explanation
 	## Term
 	translated term. The explanation follows.
-`,
+	
+Usage:
+	switchglo [command]
+
+Available Commands:
+	help        Help about any command
+	merge       Merge glossary with its translated terms
+	sort        Sorts glossary term in alphabetical order
+	switch      Switch terms with their translations
+
+Flags:
+		--config string   config file (default is $HOME/.switchglo.yaml)
+		--file string     glossary file (default is glossary.md) (default "glossary.md")
+	-h, --help            help for switchglo
+		--out string      output file (default is glossary_out.md) (default "glossary_out.md")
+	-t, --toggle          Help message for toggle`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },

@@ -64,10 +64,12 @@ func Sort(glossary []InfoBlock) {
 }
 
 // WriteToFile writes markdown to given file
-func WriteToFile(glossary []InfoBlock, out string) error {
+func WriteToFile(out string, glossaries ...[]InfoBlock) error {
 	var buffer bytes.Buffer
-	for _, ib := range glossary {
-		buffer.WriteString(fmt.Sprintf("%s\n\n", ib.String()))
+	for _, glossary := range glossaries {
+		for _, ib := range glossary {
+			buffer.WriteString(fmt.Sprintf("%s\n\n", ib.String()))
+		}
 	}
 	err := ioutil.WriteFile(out, buffer.Bytes(), 0644)
 	if err != nil {

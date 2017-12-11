@@ -42,7 +42,7 @@ var sortCmd = &cobra.Command{
 		lib.Sort(glossary)
 
 		outputFile := cmd.Flag("out").Value.String()
-		err = lib.WriteToFile(glossary, outputFile)
+		err = lib.WriteToFile(outputFile, glossary)
 		if err != nil {
 			log.Fatalf("Failed to output new glossary file, %s: %s", outputFile, err.Error())
 		}
