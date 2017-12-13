@@ -44,23 +44,7 @@ In order to execute these automations reliably, translators should maintain foll
 
 	2) With explanation
 	## Term
-	translated term. The explanation follows.
-	
-Usage:
-	switchglo [command]
-
-Available Commands:
-	help        Help about any command
-	merge       Merge glossary with its translated terms
-	sort        Sorts glossary term in alphabetical order
-	switch      Switch terms with their translations
-
-Flags:
-		--config string   config file (default is $HOME/.switchglo.yaml)
-		--file string     glossary file (default is glossary.md) (default "glossary.md")
-	-h, --help            help for switchglo
-		--out string      output file (default is glossary_out.md) (default "glossary_out.md")
-	-t, --toggle          Help message for toggle`,
+	translated term. The explanation follows.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
