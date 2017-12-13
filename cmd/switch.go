@@ -17,7 +17,6 @@ package cmd
 import (
 	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/golangkorea/switchglo/lib"
 
@@ -43,12 +42,10 @@ In order to execute these automations reliably, translators should maintain foll
 		input, err := ioutil.ReadFile(cmd.Flag("file").Value.String())
 		if err != nil {
 			log.Fatalf("Failed to read glossary file: %s", err.Error())
-			os.Exit(1)
 		}
 		glossary, err := lib.NewGlossary(string(input))
 		if err != nil {
 			log.Fatalf("Failed to create InfoBlock slice from markdown: %s", err.Error())
-			os.Exit(1)
 		}
 		lib.Switch(glossary)
 		lib.Sort(glossary)

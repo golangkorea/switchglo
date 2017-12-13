@@ -32,19 +32,16 @@ var mergeCmd = &cobra.Command{
 		input, err := ioutil.ReadFile(cmd.Flag("file").Value.String())
 		if err != nil {
 			log.Fatalf("Failed to read glossary file: %s", err.Error())
-			os.Exit(1)
 		}
 		glossary, err := lib.NewGlossary(string(input))
 		if err != nil {
 			log.Fatalf("Failed to create InfoBlock slice from markdown: %s", err.Error())
-			os.Exit(1)
 		}
 		lib.Sort(glossary)
 
 		input, err = ioutil.ReadFile(cmd.Flag("file").Value.String())
 		if err != nil {
 			log.Fatalf("Failed to read glossary file: %s", err.Error())
-			os.Exit(1)
 		}
 		switched, err := lib.NewGlossary(string(input))
 		if err != nil {
