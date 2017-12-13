@@ -68,7 +68,7 @@ func WriteToFile(out string, glossaries ...[]InfoBlock) error {
 	var buffer bytes.Buffer
 	for _, glossary := range glossaries {
 		for _, ib := range glossary {
-			buffer.WriteString(fmt.Sprintf("%s\n\n", ib.String()))
+			buffer.WriteString(fmt.Sprintf("%s", ib.String()))
 		}
 	}
 	err := ioutil.WriteFile(out, buffer.Bytes(), 0644)
@@ -84,6 +84,7 @@ func NewGlossary(mdinput string) ([]InfoBlock, error) {
 	glossary := []InfoBlock{}
 
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(blackfriday.Run([]byte(mdinput))))
+	fmt.Println(doc.Html())
 
 	if err != nil {
 		return nil, errors.New("Failed to create goquery.Document object from input: " + mdinput)
@@ -95,13 +96,19 @@ func NewGlossary(mdinput string) ([]InfoBlock, error) {
 		case "h2":
 			html, err := s.Html()
 			if err == nil {
-				glossary = append(glossary, InfoBlock{Term: html, Translation: "", Explanation: ""})
+				glossary = append(glossary, InfoBlock{Term: strings.TrimSpace(html), Translation: "", Explanation: ""})
 			}
 			expidx = 0
-		case "pre":
-			html, err := s.Find("code").Html()
+		case "code":
+			txt := s.Text()
 			if err == nil {
-				glossary[len(glossary)-1].Explanation += fmt.Sprintf("\n```\n%s\n```\n", html)
+				glossary[len(glossary)-1].Explanation += fmt.Sprintf("\n\n```\n%s\n```\n\n", txt)
+				expidx++
+			}
+		case "pre":
+			txt := s.Find("code").Text()
+			if err == nil {
+				glossary[len(glossary)-1].Explanation += fmt.Sprintf("\n\n```\n%s\n```\n\n", txt)
 				expidx++
 			}
 		default:
@@ -110,10 +117,10 @@ func NewGlossary(mdinput string) ([]InfoBlock, error) {
 				switch expidx {
 				case 0:
 					tokens := strings.Split(html, ".")
-					glossary[len(glossary)-1].Translation = tokens[0]
-					glossary[len(glossary)-1].Explanation = fmt.Sprintf("%s\n", strings.Join(tokens[1:], " "))
+					glossary[len(glossary)-1].Translation = strings.TrimSpace(tokens[0])
+					glossary[len(glossary)-1].Explanation = fmt.Sprintf("%s", strings.Join(tokens[1:], " "))
 				default:
-					glossary[len(glossary)-1].Explanation += fmt.Sprintf("\n%s\n", html)
+					glossary[len(glossary)-1].Explanation += fmt.Sprintf("%s", html)
 				}
 				expidx++
 			}
