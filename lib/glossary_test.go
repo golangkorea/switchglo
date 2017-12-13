@@ -9,7 +9,10 @@ var testcases = []struct {
 	valid []InfoBlock
 }{
 	{
-		`## term1
+		`## term4
+번역4. 추가설명. https://www.google.com
+
+## term1
 번역1
 
 ## term3
@@ -26,6 +29,7 @@ additional line 1
 ## term2
 번역2. explanation`,
 		[]InfoBlock{
+			InfoBlock{Term: "term4", Translation: "번역4", Explanation: " 추가설명. <a href=\"https://www.google.com\">https://www.google.com</a>"},
 			InfoBlock{Term: "term1", Translation: "번역1", Explanation: ""},
 			InfoBlock{Term: "term3", Translation: "번역3", Explanation: " explanation in multiple lineadditional line 1\n\n```\nadditional line 2\n\n```\n\n"},
 			InfoBlock{Term: "term2", Translation: "번역2", Explanation: " explanation"},
@@ -67,28 +71,28 @@ func TestSort(t *testing.T) {
 
 	Sort(ByTerm(glossary))
 
-	if glossary[0].Term != testcases[0].valid[0].Term ||
-		glossary[0].Translation != testcases[0].valid[0].Translation ||
-		glossary[0].Explanation != testcases[0].valid[0].Explanation {
-		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[0], glossary[0])
+	if glossary[0].Term != testcases[0].valid[1].Term ||
+		glossary[0].Translation != testcases[0].valid[1].Translation ||
+		glossary[0].Explanation != testcases[0].valid[1].Explanation {
+		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[1], glossary[0])
 	}
-	if glossary[2].Term != testcases[0].valid[1].Term ||
-		glossary[2].Translation != testcases[0].valid[1].Translation ||
-		glossary[2].Explanation != testcases[0].valid[1].Explanation {
-		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[1], glossary[2])
+	if glossary[2].Term != testcases[0].valid[2].Term ||
+		glossary[2].Translation != testcases[0].valid[2].Translation ||
+		glossary[2].Explanation != testcases[0].valid[2].Explanation {
+		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[2], glossary[2])
 	}
 
 	Switch(glossary)
 	Sort(ByTerm(glossary))
 
-	if glossary[0].Term != testcases[0].valid[0].Translation ||
-		glossary[0].Translation != testcases[0].valid[0].Term ||
-		glossary[0].Explanation != testcases[0].valid[0].Explanation {
-		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[0], glossary[0])
+	if glossary[0].Term != testcases[0].valid[1].Translation ||
+		glossary[0].Translation != testcases[0].valid[1].Term ||
+		glossary[0].Explanation != testcases[0].valid[1].Explanation {
+		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[1], glossary[0])
 	}
-	if glossary[2].Term != testcases[0].valid[1].Translation ||
-		glossary[2].Translation != testcases[0].valid[1].Term ||
-		glossary[2].Explanation != testcases[0].valid[1].Explanation {
-		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[1], glossary[2])
+	if glossary[2].Term != testcases[0].valid[2].Translation ||
+		glossary[2].Translation != testcases[0].valid[2].Term ||
+		glossary[2].Explanation != testcases[0].valid[2].Explanation {
+		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[2], glossary[2])
 	}
 }
