@@ -37,13 +37,19 @@ var newCmd = &cobra.Command{
 3) Explanation (Optional)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Enter Term: ")
-		term, _ := reader.ReadString('\n')
+		var term string
+		for len(strings.TrimSpace(term)) == 0 {
+			fmt.Print("Enter Term (*): ")
+			term, _ = reader.ReadString('\n')
+		}
 
-		fmt.Print("Enter Translation: ")
-		translation, _ := reader.ReadString('\n')
+		var translation string
+		for len(strings.TrimSpace(translation)) == 0 {
+			fmt.Print("Enter Translation (*): ")
+			translation, _ = reader.ReadString('\n')
+		}
 
-		fmt.Print("Enter Explanation: ")
+		fmt.Print("Enter Explanation (^Z to end): ")
 		explanation, _ := reader.ReadString('\032') // Enter ctrl-z to end the input
 
 		newInfoBlock := lib.InfoBlock{
