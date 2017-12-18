@@ -14,10 +14,40 @@
   revision = "349dd0209470eabd9514242c688c403c0926d266"
 
 [[projects]]
+  name = "github.com/blevesearch/bleve"
+  packages = [".","analysis","analysis/analyzers/standard_analyzer","analysis/datetime_parsers/datetime_optional","analysis/datetime_parsers/flexible_go","analysis/language/en","analysis/token_filters/lower_case_filter","analysis/token_filters/porter","analysis/token_filters/stop_tokens_filter","analysis/tokenizers/unicode","document","index","index/store","index/store/boltdb","index/store/gtreap","index/upside_down","numeric_util","registry","search","search/collectors","search/facets","search/highlight","search/highlight/fragment_formatters/html","search/highlight/fragmenters/simple","search/highlight/highlighters/html","search/highlight/highlighters/simple","search/scorers","search/searchers"]
+  revision = "97393d027342f43b17da2f02c090a4e728ac929f"
+  version = "v0.5.0"
+
+[[projects]]
+  name = "github.com/blevesearch/go-porterstemmer"
+  packages = ["."]
+  revision = "b4dd94e38f29620fe0f97ae4b0f6994b0d5d75f0"
+  version = "v1.0.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/blevesearch/segment"
+  packages = ["."]
+  revision = "762005e7a34fd909a84586299f1dd457371d36ee"
+
+[[projects]]
+  name = "github.com/boltdb/bolt"
+  packages = ["."]
+  revision = "2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8"
+  version = "v1.3.1"
+
+[[projects]]
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
   revision = "629574ca2a5df945712d3079857300b5e4da0236"
   version = "v1.4.2"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
 
 [[projects]]
   branch = "master"
@@ -93,8 +123,14 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/steveyen/gtreap"
+  packages = ["."]
+  revision = "0abe01ef9be25c4aedc174758ec2d917314d6d70"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
-  packages = ["html","html/atom"]
+  packages = ["context","html","html/atom"]
   revision = "d866cfc389cec985d6fda2859936a575a55a3ab6"
 
 [[projects]]
@@ -124,6 +160,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f185c168a4400b0ebdfd3c2175f7d1a4f7005b3614eb6c3efc7263fecadee287"
+  inputs-digest = "f0194e87562efa453cc42db3219e49163bbbe975045413b5ee6675c85036dfd8"
   solver-name = "gps-cdcl"
   solver-version = 1

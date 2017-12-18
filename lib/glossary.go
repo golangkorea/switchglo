@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/blevesearch/bleve"
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
@@ -61,6 +62,27 @@ func Switch(glossary []InfoBlock) {
 // Sort all InfoBlock
 func Sort(glossary []InfoBlock) {
 	sort.Sort(ByTerm(glossary))
+}
+
+// NewSearchIndex return new index
+func NewSearchIndex(glossary []InfoBlock) (bleve.Index, error) {
+	mapping := bleve.NewIndexMapping()
+	index, err := bleve.NewMemOnly(mapping)
+	if err != nil {
+		return nil, err
+	}
+	for _, ib := range glossary {
+		index.Index(ib.Term, ib)
+	}
+	return index, nil
+}
+
+// Search return results matching searchTerm
+func Search(searchTerm string, index bleve.Index) (*bleve.SearchResult, error) {
+	query := bleve.NewQueryStringQuery(searchTerm)
+	searchRequest := bleve.NewSearchRequest(query)
+	searchRequest.Highlight = bleve.NewHighlight()
+	return index.Search(searchRequest)
 }
 
 // WriteToFile writes markdown to given file

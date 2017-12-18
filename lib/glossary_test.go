@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -95,4 +96,22 @@ func TestSort(t *testing.T) {
 		glossary[2].Explanation != testcases[0].valid[2].Explanation {
 		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[2], glossary[2])
 	}
+}
+
+func TestSearch(t *testing.T) {
+	glossary, _ := NewGlossary(testcases[0].md)
+
+	index, err := NewSearchIndex(glossary)
+	if err != nil {
+		t.Errorf("Failed to create new index: %s", err.Error())
+		t.Fail()
+	}
+
+	searchResult, err := Search("term1", index)
+
+	for _, hit := range searchResult.Hits {
+		document := hit.Document
+		fmt.Println(document)
+	}
+
 }
