@@ -22,7 +22,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/blevesearch/bleve"
 	"github.com/golangkorea/switchglo/lib"
 	"github.com/spf13/cobra"
 )
@@ -39,7 +38,10 @@ var searchCmd = &cobra.Command{
 			log.Fatalf("Failed to read glossary file: %s", err.Error())
 		}
 		glossary, err := lib.NewGlossary(string(input))
-		index := lib.NewSearchIndex(glossary)
+		index, err := lib.NewSearchIndex(glossary)
+		if err != nil {
+			log.Fatalf("Failed to create new index: %s", err.Error())
+		}
 
 		reader := bufio.NewReader(os.Stdin)
 		var searchTerm string
@@ -49,18 +51,19 @@ var searchCmd = &cobra.Command{
 			searchTerm, _ = reader.ReadString('\n')
 		}
 
-		query := bleve.NewQueryStringQuery(searchTerm)
-		searchRequest := bleve.NewSearchRequest(query)
-		searchRequest.Highlight = bleve.NewHighlight()
-		searchResults, err := index.Search(searchRequest)
+		searchResults, err := lib.Search(searchTerm, index)
 		if err != nil {
 			log.Fatalf("Failed to search with %s: %s", searchTerm, err.Error())
 		}
 
-		srTxt := searchResults.String()
-		srTxt = strings.Replace(srTxt, "<mark>", "*", -1)
-		srTxt = strings.Replace(srTxt, "</mark>", "*", -1)
-		fmt.Println(srTxt)
+		if len(searchResults) == 0 {
+			log.Println("No matches")
+			os.Exit(0)
+		}
+
+		for _, ib := range searchResults {
+			fmt.Printf("%s\n\n", ib.String())
+		}
 	},
 }
 

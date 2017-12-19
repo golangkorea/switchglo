@@ -64,25 +64,47 @@ func Sort(glossary []InfoBlock) {
 	sort.Sort(ByTerm(glossary))
 }
 
+// SearchIndex returns search index and InfoBlock map
+type SearchIndex struct {
+	index    bleve.Index
+	glossary map[string]InfoBlock
+}
+
+// Search deletes to bleve.Index.Search
+func (si *SearchIndex) Search(req *bleve.SearchRequest) (*bleve.SearchResult, error) {
+	return si.index.Search(req)
+}
+
 // NewSearchIndex return new index
-func NewSearchIndex(glossary []InfoBlock) (bleve.Index, error) {
+func NewSearchIndex(glossary []InfoBlock) (*SearchIndex, error) {
 	mapping := bleve.NewIndexMapping()
 	index, err := bleve.NewMemOnly(mapping)
 	if err != nil {
 		return nil, err
 	}
+	glossaryMap := make(map[string]InfoBlock)
 	for _, ib := range glossary {
 		index.Index(ib.Term, ib)
+		glossaryMap[ib.Term] = ib
 	}
-	return index, nil
+	return &SearchIndex{index: index, glossary: glossaryMap}, nil
 }
 
 // Search return results matching searchTerm
-func Search(searchTerm string, index bleve.Index) (*bleve.SearchResult, error) {
+func Search(searchTerm string, index *SearchIndex) ([]InfoBlock, error) {
 	query := bleve.NewQueryStringQuery(searchTerm)
 	searchRequest := bleve.NewSearchRequest(query)
 	searchRequest.Highlight = bleve.NewHighlight()
-	return index.Search(searchRequest)
+	searchResult, err := index.Search(searchRequest)
+	if err != nil {
+		return nil, err
+	}
+	resultInfoBlocks := []InfoBlock{}
+	for _, hit := range searchResult.Hits {
+		resultInfoBlocks = append(resultInfoBlocks, index.glossary[hit.ID])
+	}
+
+	return resultInfoBlocks, nil
 }
 
 // WriteToFile writes markdown to given file

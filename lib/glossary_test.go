@@ -1,7 +1,6 @@
 package lib
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -109,9 +108,8 @@ func TestSearch(t *testing.T) {
 
 	searchResult, err := Search("term1", index)
 
-	for _, hit := range searchResult.Hits {
-		document := hit.Document
-		fmt.Println(document)
+	if searchResult[0].Term != "term1" {
+		t.Fatalf("Expected %#v but got %#v", testcases[0].valid[1], searchResult[0])
 	}
 
 }
